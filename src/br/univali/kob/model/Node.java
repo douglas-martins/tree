@@ -2,6 +2,9 @@ package br.univali.kob.model;
 
 import java.util.Objects;
 
+/**
+ * Class to represent a flower on the binary tree.
+ */
 public class Node {
     private Object data;
     private Node right;
@@ -63,6 +66,12 @@ public class Node {
     public void setLeft(Node left) {
         this.left = left;
     }
+
+    /**
+     * Check if the node is empty (data and childes)
+     * @return boolean with true if the node is empty and false if not
+     */
+    public boolean isEmpty() { return (this.data == null && this.left == null && this.right == null); }
 
     /**
      * Print the node in fork
