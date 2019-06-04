@@ -43,9 +43,20 @@ public class Tree {
     /**
      * Insert a Object data (with a Node) inside a tree.
      * @param data: Object reference with data that will be inserted.
-     * @param node: Node reference that will be inserted 
      */
-    public void insert(Object data, Node node) {
+    public void insert(Object data) {
+        insert(data, this.root);
+    }
+
+    /**
+     * Remove a node from tree.
+     * @param node: Node reference that will bel deleted.
+     */
+    public void remove(Node node) {
+
+    }
+
+    private void insert(Object data, Node node) {
         if (node.isEmpty()) {
             node = new Node();
             node.setData(data);
@@ -58,32 +69,9 @@ public class Tree {
                 insert(data, node.getLeft());
             }
         }
-
-//
-//        procedimento insere (elemento : inteiro; var p : ref)
-//        início
-//        se p = nulo então
-//        aloque (p)
-//        p.chave  elemento
-//        p.subArvoreEsquerda  nulo
-//        p.subArvoreDireita  nulo
-//                senão
-//        se elemento < p.chave então
-//        insere (elemento, p.subArvoreEsquerda)
-//        senão
-//        insere (elemento, p.subArvoreDireita)
-//        fim se
-//        fim se
-//        fim
-    }
-
-    public void remove(Node node) {
-
     }
 
     private void removeElement(Node node) {
 
     }
-
-
 }
