@@ -28,6 +28,12 @@ public class Node {
     }
 
     /**
+     * Get data Object size on a int value.
+     * @return int with the value of Object size for a int.
+     */
+    public int dataSize() { return Objects.hash(data); }
+
+    /**
      * Set value for data class attribute.
      * @param data with the value that will be inserted on the class attribute.
      */
