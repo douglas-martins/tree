@@ -2,14 +2,16 @@ package br.univali.kob.test;
 
 import br.univali.kob.model.Node;
 import br.univali.kob.model.Tree;
+import br.univali.kob.model.TreeTravelType;
 
 public class TreeTestCase {
 
     public static void main(String[] args) {
-        Node node = new Node(10);
-        node.setLeft(new Node(2));
-        node.setRight(new Node(1));
-        Tree tree = new Tree(null);
+        Node<Integer> node = new Node<>(10);
+        node.setLeft(new Node<>(2));
+        node.setRight(new Node<>(1));
+
+        Tree<Integer> tree = new Tree<>(null);
 
         tree.insert(3);
         tree.insert(4);
@@ -20,12 +22,17 @@ public class TreeTestCase {
         tree.insert(0);
         tree.insert(8);
 
-        tree.print(tree.getRoot());
+        System.out.print("Print tree in pre order: ");
+        tree.print(TreeTravelType.PRE_ORDER);
+        System.out.println();
+        System.out.print("Print tree in in order: ");
+        tree.print(TreeTravelType.IN_ORDER);
+        System.out.println();
+        System.out.print("Print tree in post order: ");
+        tree.print(TreeTravelType.POST_ORDER);
+        System.out.println();
 
         System.out.println();
         System.out.println("Total " + tree.treeTotal());
-
-
-        // node.print();
     }
 }

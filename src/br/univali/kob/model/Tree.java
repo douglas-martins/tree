@@ -1,20 +1,19 @@
 package br.univali.kob.model;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * Class to represent a Binary Tree
  */
-public class Tree {
+public class Tree<T extends Comparable<T>> {
     private int total;
-    private Node root;
+    private Node<T> root;
 
     /**
      * Default constructor for Tree class.
      * @param root: Node value that will be passed to root.
      */
-    public Tree(Node root) {
+    public Tree(Node<T> root) {
         this.root = root;
         this.total = 0;
     }
@@ -23,7 +22,7 @@ public class Tree {
      * Get class root value.
      * @return Node with the reference for the root.
      */
-    public Node getRoot() { return this.root; }
+    public Node<T> getRoot() { return this.root; }
 
     /**
      * Check if the tree is empty.
@@ -42,7 +41,7 @@ public class Tree {
      * @param node: Node object that will be searched on the tree.
      * @return boolean with the true value if Node is inside the tree and false if not.
      */
-    public boolean isInside(Node node) {
+    public boolean isInside(Node<T> node) {
         return false;
     }
 
@@ -50,7 +49,7 @@ public class Tree {
      * Insert a Object data (with a Node) inside a tree.
      * @param data: Object reference with data that will be inserted.
      */
-    public void insert(Comparable data) {
+    public void insert(T data) {
         this.root = insert(data, this.root);
     }
 
@@ -58,117 +57,95 @@ public class Tree {
      * Remove a object with the value passed.
      * @param data: Object with the value that will be removed from tree.
      */
-    public void remove(Object data) { remove(data, this.root); }
+    public void remove(T data) { this.root = remove(data, this.root); }
 
     /**
      * Print the Tree with the Nodes on fork.
+     * @param type: TreeTravelType of print order the tree has to bem printed.
      */
-    public void print(Node node) {
-        ArrayList<ArrayList<Node>> elements;
+    public void print(TreeTravelType type) {
+        switch (type) {
+            case IN_ORDER:
+                printInOrder(this.root);
+                break;
+            case POST_ORDER:
+                printPostOrder(this.root);
+                break;
+                default:
+                    printPreOrder(this.root);
+        }
     }
 
-    private Node insert(Comparable data, Node node) {
-        if (node == null) {
-            return new Node(data);
-        }
+    private Node<T> insert(T data, Node<T> node) {
+        if (node == null) { return new Node<>(data); } // empty root
 
-        if (data.compareTo(node.getData()) < 0) {
+        if (data.compareTo(node.getData()) < 0) { // smaller than the node more to the left
             node.setLeft(insert(data, node.getLeft()));
-        } else if (data.compareTo(node.getData()) > 0) {
+        } else if (data.compareTo(node.getData()) > 0) { // bigger than the node more to the left
             node.setRight(insert(data, node.getRight()));
-        } else {
-            // value already exists
+        } else { // value already exists
             return node;
         }
 
         return node;
-
-
-//        if (node == null) {
-//            node = new Node();
-//            node.setData(data);
-//            node.setRight(null);
-//            node.setLeft(null);
-//            this.total++;
-//        } else {
-//            if (node.dataSize() > data.hashCode()) {
-//                insert(data, node.getRight());
-//            } else {
-//                insert(data, node.getLeft());
-//            }
-//        }
     }
 
-    private void remove(Object data, Node node) {
-        Node reference = null;
+    private Node<T> remove(Comparable<T> data, Node<T> node) {
+        if (node == null) { return null; }
 
-//        if (data.hashCode() < node.get()) {
-//            remove(data, node.getLeft());
-//        } else {
-//            if (data.hashCode() > node.dataSize()) {
-//                remove(data, node.getRight());
-//            } else {
-//                reference = node;
-//                if (reference.getRight() == null) {
-//                    node = reference.getLeft();
-//                    reference.setLeft(node);
-//                } else {
-//                    if (reference.getLeft() == null) {
-//                        node = reference.getRight();
-//                        reference.setRight(node);
-//                    } else {
-//                        removeElement(reference, reference.getLeft());
-//                    }
-//                }
-//            }
-//        }
+        if (data.compareTo(node.getData()) == 0) { // Node to delete found
+            if (node.getLeft() == null && node.getRight() == null) { return null; } // no nodes
 
-//        procedimento retira (elemento : inteiro; var p : ref)
-//        variável
-//        q : ref
+            if (node.getRight() == null) { return node.getLeft(); } // one node, right
 
-//        início
-//        se elemento < p.chave então
-//        retira (elemento, p.subArvoreEsquerda)
-//        senão
-//        se elemento > p.chave então
-//        retira (elemento, p.subArvoreDireita)
-//        senão
-//        q  p
-//        se q.subArvoreDireita = nulo então
-//        p  q.subArvoreEsquerda
-//                senão
-//        se q.subArvoreEsquerda = nulo então
-//        p  q.subArvoreDireita
-//                senão
-//        retiraElemento (q.subArvoreEsquerda)
-//        fim se
-//        fim se
-//        libere (q)
-//        fim se
-//        fim se
-//        fim
-    }
+            if (node.getLeft() == null) { return node.getRight(); } // one node, left
 
-    private void removeElement(Node reference, Node node) {
-        if (node.getRight() != null) {
-            removeElement(reference, node.getRight());
-        } else {
-            reference.setData(node.getData());
-            reference = node;
-            node.setLeft(node.getLeft());
+            // two nodes
+            T smallestData = treeSmallestData(node.getRight());
+            node.setData(smallestData);
+            node.setRight(remove(smallestData, node.getRight()));
+            return node;
         }
 
-//        procedimento retiraElemento (var r : ref)
-//        início
-//        se r.subArvoreDireita ≠ nulo então
-//        retiraElemento (r.subArvoreDireita)
-//        senão
-//        q.chave  r.chave
-//        q  r
-//        r  r.subArvoreEsquerda
-//        fim se
-//        fim
+        if (data.compareTo(node.getData()) < 0) {
+            node.setLeft(remove(data, node.getLeft()));
+            return node;
+        }
+
+        node.setRight(remove(data, node.getRight()));
+        return node;
+    }
+
+    private T treeSmallestData(Node<T> node) {
+        return node.getLeft() == null ? node.getData() : treeSmallestData(node.getLeft());
+    }
+
+    private T treeBiggerData(Node<T> node) {
+        return node.getRight() == null ? node.getData() : treeBiggerData(node.getRight());
+    }
+
+    private void printPreOrder(Node<T> node) { // PRÉ-ORDEM
+        if (node != null) {
+            System.out.print(" " + node.getData());
+            printPreOrder(node.getLeft());
+            printPreOrder(node.getRight());
+        }
+    }
+
+    private void printInOrder(Node<T> node) { // IN-ORDEM
+        if (node != null) {
+            printInOrder(node.getLeft());
+            System.out.print(" " + node.getData());
+            printInOrder(node.getRight());
+        }
+    }
+
+    private void printPostOrder(Node<T> node) { // PÓS-ORDEM
+        if (node != null) {
+            printPostOrder(node.getLeft());
+            printPostOrder(node.getRight());
+            System.out.print(" " + node.getData());
+        }
     }
 
     @Override

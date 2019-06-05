@@ -5,10 +5,10 @@ import java.util.Objects;
 /**
  * Class to represent a flower on the binary tree.
  */
-public class Node {
-    private Object data;
-    private Node right;
-    private Node left;
+public class Node<T extends Comparable<T>> {
+    private T data;
+    private Node<T> right;
+    private Node<T> left;
 
     /**
      * Default constructor for Node class.
@@ -23,24 +23,22 @@ public class Node {
      * Constructor passing the value of data.
      * @param data: Object that contains the value passed to data.
      */
-    public Node(Object data) {
+    public Node(T data) {
         super();
         this.data = data;
     }
 
     /**
      * Get the value of data class attribute.
-     * @return Object with the reference for the data value on the class.
+     * @return T with the reference for the data value on the class.
      */
-    public Object getData() {
-        return data;
-    }
+    public T getData() { return this.data; }
 
     /**
      * Set value for data class attribute.
      * @param data with the value that will be inserted on the class attribute.
      */
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 
@@ -48,15 +46,13 @@ public class Node {
      * Get the value of right class attribute.
      * @return Node with the reference for the right value on the class.
      */
-    public Node getRight() {
-        return right;
-    }
+    public Node<T> getRight() { return this.right; }
 
     /**
      * Set value for right class attribute.
      * @param right with the value that will be inserted on the class attribute.
      */
-    public void setRight(Node right) {
+    public void setRight(Node<T> right) {
         this.right = right;
     }
 
@@ -64,15 +60,13 @@ public class Node {
      * Get the value of left class attribute.
      * @return Node with the reference for the left value on the class.
      */
-    public Node getLeft() {
-        return left;
-    }
+    public Node<T> getLeft() { return this.left; }
 
     /**
      * Set the value for left class attribute.
      * @param left with the value that will be inserted on the class attribute.
      */
-    public void setLeft(Node left) {
+    public void setLeft(Node<T> left) {
         this.left = left;
     }
 
