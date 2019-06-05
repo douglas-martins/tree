@@ -20,18 +20,21 @@ public class Node {
     }
 
     /**
+     * Constructor passing the value of data.
+     * @param data: Object that contains the value passed to data.
+     */
+    public Node(Object data) {
+        super();
+        this.data = data;
+    }
+
+    /**
      * Get the value of data class attribute.
      * @return Object with the reference for the data value on the class.
      */
     public Object getData() {
         return data;
     }
-
-    /**
-     * Get data Object size on a int value.
-     * @return int with the value of Object size for a int.
-     */
-    public int dataSize() { return Objects.hash(data); }
 
     /**
      * Set value for data class attribute.
@@ -83,7 +86,13 @@ public class Node {
      * Print the node in fork
      */
     public void print() {
-
+        System.out.println(" " + this.data.toString());
+        System.out.print(" /");
+        System.out.print(" ");
+        System.out.println("\\");
+        System.out.print(this.left.getData());
+        System.out.print(" ");
+        System.out.print("  " + this.right.getData());
     }
 
     @Override

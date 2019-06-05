@@ -1,5 +1,6 @@
 package br.univali.kob.model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -49,8 +50,8 @@ public class Tree {
      * Insert a Object data (with a Node) inside a tree.
      * @param data: Object reference with data that will be inserted.
      */
-    public void insert(Object data) {
-        insert(data, this.root);
+    public void insert(Comparable data) {
+        this.root = insert(data, this.root);
     }
 
     /**
@@ -62,47 +63,65 @@ public class Tree {
     /**
      * Print the Tree with the Nodes on fork.
      */
-    public void print() {
-
+    public void print(Node node) {
+        ArrayList<ArrayList<Node>> elements;
     }
 
-    private void insert(Object data, Node node) {
-        if (node.isEmpty()) {
-            node = new Node();
-            node.setData(data);
-            node.setRight(null);
-            node.setLeft(null);
-            this.total++;
-        } else {
-            if (node.dataSize() > data.hashCode()) {
-                insert(data, node.getRight());
-            } else {
-                insert(data, node.getLeft());
-            }
+    private Node insert(Comparable data, Node node) {
+        if (node == null) {
+            return new Node(data);
         }
+
+        if (data.compareTo(node.getData()) < 0) {
+            node.setLeft(insert(data, node.getLeft()));
+        } else if (data.compareTo(node.getData()) > 0) {
+            node.setRight(insert(data, node.getRight()));
+        } else {
+            // value already exists
+            return node;
+        }
+
+        return node;
+
+
+//        if (node == null) {
+//            node = new Node();
+//            node.setData(data);
+//            node.setRight(null);
+//            node.setLeft(null);
+//            this.total++;
+//        } else {
+//            if (node.dataSize() > data.hashCode()) {
+//                insert(data, node.getRight());
+//            } else {
+//                insert(data, node.getLeft());
+//            }
+//        }
     }
 
     private void remove(Object data, Node node) {
         Node reference = null;
 
-        if (data.hashCode() < node.dataSize()) {
-            remove(data, node.getLeft());
-        } else {
-            if (data.hashCode() > node.dataSize()) {
-                remove(data, node.getRight());
-            } else {
-                reference = node;
-                if (reference.getRight() == null) {
-                    node = reference.getLeft();
-                } else {
-                    if (reference.getLeft() == null) {
-                        node = reference.getRight();
-                    } else {
-                        removeElement(reference, reference.getLeft());
-                    }
-                }
-            }
-        }
+//        if (data.hashCode() < node.get()) {
+//            remove(data, node.getLeft());
+//        } else {
+//            if (data.hashCode() > node.dataSize()) {
+//                remove(data, node.getRight());
+//            } else {
+//                reference = node;
+//                if (reference.getRight() == null) {
+//                    node = reference.getLeft();
+//                    reference.setLeft(node);
+//                } else {
+//                    if (reference.getLeft() == null) {
+//                        node = reference.getRight();
+//                        reference.setRight(node);
+//                    } else {
+//                        removeElement(reference, reference.getLeft());
+//                    }
+//                }
+//            }
+//        }
 
 //        procedimento retira (elemento : inteiro; var p : ref)
 //        variável
