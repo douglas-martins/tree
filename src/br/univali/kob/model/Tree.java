@@ -51,6 +51,7 @@ public class Tree<T extends Comparable<T>> {
      */
     public void insert(T data) {
         this.root = insert(data, this.root);
+        this.total++;
     }
 
     /**
