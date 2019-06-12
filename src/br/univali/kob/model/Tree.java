@@ -38,11 +38,11 @@ public class Tree<T extends Comparable<T>> {
 
     /**
      * Check if a node is inside this tree.
-     * @param node: Node object that will be searched on the tree.
+     * @param data: T data that will be searched on the tree.
      * @return boolean with the true value if Node is inside the tree and false if not.
      */
-    public boolean isInside(Node<T> node) {
-        return false;
+    public boolean isInside(T data) {
+        return isInside(data, this.root);
     }
 
     /**
@@ -75,6 +75,14 @@ public class Tree<T extends Comparable<T>> {
                 default:
                     printPreOrder(this.root);
         }
+    }
+
+    private boolean isInside(T data, Node<T> node) {
+        if (node == null) { return false; }
+
+        if (data.compareTo(node.getData()) == 0) { return true; }
+
+        return data.compareTo(node.getData()) < 0 ? isInside(data, node.getLeft()) : isInside(data, node.getRight());
     }
 
     private Node<T> insert(T data, Node<T> node) {
